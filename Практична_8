@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <string.h>
+
+unsigned long long factorial(int n) {        // Функція для обчислення факторіалу
+    if (n == 0 || n == 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+unsigned long long countAnagrams(char *word) {   // Функція для обчислення кількості анаграм
+    int length = strlen(word);
+    int count[256] = {0}; // Масив для зберігання кількості кожного символу
+
+    for (int i = 0; i < length; i++) {     // Рахуємо кількість кожного символу в слові
+        count[(int)word[i]]++;
+    }
+
+    // Обчислюємо кількість анаграм
+    unsigned long long result = factorial(length);
+    for (int i = 0; i < 256; i++) {
+        if (count[i] > 1) {
+            result /= factorial(count[i]);
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    char word[15]; // Максимальна довжина слова 14 символів + 1 для '\0'
+
+    printf("Введіть слово: ");
+    scanf("%14s", word);
+
+    unsigned long long anagrams = countAnagrams(word); 
+    printf("Кількість анаграм: %llu\n", anagrams);
+
+    return 0;
+}
